@@ -16,7 +16,9 @@ body {
 	    background-color: #343a40;
 	    border-radius: 0px!important;
 }
-
+.brandName a{
+	font-size: 2em;
+}
 #mainContent {
 	background-color: #FF8686;
 	margin-top: 20px;
