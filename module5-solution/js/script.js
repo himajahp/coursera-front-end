@@ -14,23 +14,25 @@ $(function () { // Same as document.addEventListener("DOMContentLoaded"...
 var dc = {};
 
 var homeHtmlUrl = "snippets/home-snippet.html";
-var allCategoriesUrl =
-  "https://davids-restaurant.herokuapp.com/categories.json";
+var allCategoriesUrl = "https://davids-restaurant.herokuapp.com/categories.json";
 var categoriesTitleHtml = "snippets/categories-title-snippet.html";
 var categoryHtml = "snippets/category-snippet.html";
-var menuItemsUrl =
-  "https://davids-restaurant.herokuapp.com/menu_items.json?category=";
+var menuItemsUrl = "https://davids-restaurant.herokuapp.com/menu_items.json?category=";
 var menuItemsTitleHtml = "snippets/menu-items-title.html";
 var menuItemHtml = "snippets/menu-item.html";
 
 // Convenience function for inserting innerHTML for 'select'
 var insertHtml = function (selector, html) {
+  console.log("insertHtml");console.log(selector);
   var targetElem = document.querySelector(selector);
+  console.log('targetElem');
+  console.log(targetElem);
   targetElem.innerHTML = html;
 };
 
 // Show loading icon inside element identified by 'selector'.
 var showLoading = function (selector) {
+  console.log("showLoading");
   var html = "<div class='text-center'>";
   html += "<img src='images/ajax-loader.gif'></div>";
   insertHtml(selector, html);
@@ -39,6 +41,7 @@ var showLoading = function (selector) {
 // Return substitute of '{{propName}}'
 // with propValue in given 'string'
 var insertProperty = function (string, propName, propValue) {
+  console.log("insertProperty");
   console.log(string);
   console.log(propName);
   console.log(propValue);
@@ -95,8 +98,7 @@ $ajaxUtils.sendGetRequest(
 // Builds HTML for the home page based on categories array
 // returned from the server.
 function buildAndShowHomeHTML (categories) {
-  console.log('categories');
-  console.log(categories);
+
   // Load home snippet page
   $ajaxUtils.sendGetRequest(
     homeHtmlUrl,
@@ -105,10 +107,9 @@ function buildAndShowHomeHTML (categories) {
       // TODO: STEP 2: Here, call chooseRandomCategory, passing it retrieved 'categories'
       // Pay attention to what type of data that function returns vs what the chosenCategoryShortName
       // variable's name implies it expects.
+      var chosenCategoryShortName = chooseRandomCategory(categories).short_name;
+      console.log(chosenCategoryShortName);
 
-       var chosenCategoryShortName = chooseRandomCategory(categories).short_name;
-       console.log('chosenCategoryShortName');
-      console.log(chosenCategoryShortName)
 
       // TODO: STEP 3: Substitute {{randomCategoryShortName}} in the home html snippet with the
       // chosen category from STEP 2. Use existing insertProperty function for that purpose.
@@ -121,16 +122,14 @@ function buildAndShowHomeHTML (categories) {
       // Hint: you need to surround the chosen category short name with something before inserting
       // it into the home html snippet.
       //
-      var homeHtmlToInsertIntoMainPage = insertProperty(homeHtml, "short_name", chosenCategoryShortName);
-      console.log('step 3');
-      console.log(homeHtmlToInsertIntoMainPage)
+      var homeHtmlToInsertIntoMainPage = insertProperty(homeHtml,"randomCategoryShortName",chosenCategoryShortName);
+
 
       // TODO: STEP 4: Insert the the produced HTML in STEP 3 into the main page
       // Use the existing insertHtml function for that purpose. Look through this code for an example
       // of how to do that.
-      // ....
+      // insertHtml("#home-tiles", homeHtmlToInsertIntoMainPage);
       insertHtml("#main-content", homeHtmlToInsertIntoMainPage);
-
 
     },
     false); // False here because we are getting just regular HTML from the server, so no need to process JSON.
